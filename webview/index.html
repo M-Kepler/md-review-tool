@@ -177,6 +177,14 @@
                 </div>
                 <!-- 编辑器工具栏（仅 Rich Mode 下可见） -->
                 <div class="editor-toolbar" id="editorToolbar">
+                    <!-- 撤销/重做 -->
+                    <button class="editor-toolbar-btn" data-cmd="undo" data-i18n-title="editor.undo_title" title="撤销 (Ctrl+Z)">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 6l-3 3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 9h9a4 4 0 0 1 0 8H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" transform="translate(0,-4) scale(1,0.85)"/></svg>
+                    </button>
+                    <button class="editor-toolbar-btn" data-cmd="redo" data-i18n-title="editor.redo_title" title="重做 (Ctrl+Y)">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M12 6l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 9H6a4 4 0 0 0 0 8h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" transform="translate(0,-4) scale(1,0.85)"/></svg>
+                    </button>
+                    <span class="editor-toolbar-separator"></span>
                     <!-- 内联格式 -->
                     <button class="editor-toolbar-btn" data-cmd="bold" data-i18n-title="editor.bold_title" title="加粗 (Ctrl+B)">
                         <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 2.5h4.5a3 3 0 0 1 0 6H4V2.5z" stroke="currentColor" stroke-width="1.8"/><path d="M4 8.5h5.5a3 3 0 0 1 0 6H4V8.5z" stroke="currentColor" stroke-width="1.8"/></svg>
@@ -368,14 +376,6 @@
                             </div>
                         </div>
                     </div>
-                    <span class="editor-toolbar-separator"></span>
-                    <!-- 历史 -->
-                    <button class="editor-toolbar-btn" data-cmd="undo" data-i18n-title="editor.undo_title" title="撤销 (Ctrl+Z)">
-                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 6l-3 3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 9h9a4 4 0 0 1 0 8H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" transform="translate(0,-4) scale(1,0.85)"/></svg>
-                    </button>
-                    <button class="editor-toolbar-btn" data-cmd="redo" data-i18n-title="editor.redo_title" title="重做 (Ctrl+Y)">
-                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M12 6l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 9H6a4 4 0 0 0 0 8h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" transform="translate(0,-4) scale(1,0.85)"/></svg>
-                    </button>
                 </div>
                 <div class="document-content" id="documentContent"></div>
                 <!-- 悬浮回到顶部按钮 -->

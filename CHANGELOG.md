@@ -29,6 +29,7 @@ All notable changes to this project will be documented in this file.
 - Added 5 regression assertions (`BT-CssImgCursor.T1.7~T1.8`, `BT-CssImgCursor.7~9`) covering: `webviewUri` field in `imageSaved` response (Tier 1), URI cache update logic in `handleImageSaved` (Tier 1), cache-before-insert ordering (Tier 3), decoded path caching (Tier 3), and `pm-schema.js` image.toDOM cache lookup (Tier 3). 907 passing, 0 failing.
 
 ### 🔧 Improvements
+- **Move Undo/Redo buttons to the first position in Rich Mode toolbar** — The Undo (Ctrl+Z) and Redo (Ctrl+Y) buttons are now placed at the very beginning of the editor toolbar (before Bold/Italic/etc.), making them more accessible and following common editor conventions where history controls appear first.
 - **Use VS Code default editor background/foreground in Rich Mode** — `#richModeContainer .ProseMirror` now uses `var(--vscode-editor-background)` directly instead of the custom `--bg-white` variable, so the editor background always matches the active VS Code theme without extra overrides.
 
 ### ✨ Restored Features
