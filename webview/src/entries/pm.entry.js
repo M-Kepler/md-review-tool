@@ -682,12 +682,13 @@ function createRichEditor({ parent, markdown, onChange, onSave, annotations, onS
                 const anchor = target && (target.tagName === 'A' ? target : (target.closest && target.closest('a')));
                 if (anchor) {
                     event.preventDefault();
+                    event.stopPropagation();
                     // 派发 pm-link-click 事件，携带链接 DOM 坐标和属性
                     try {
                         const rect = anchor.getBoundingClientRect();
                         window.dispatchEvent(new CustomEvent('pm-link-click', {
                             detail: {
-                                href: anchor.getAttribute('href') || '',
+                                href: anchor.getAttribute('data-href') || anchor.getAttribute('href') || '',
                                 title: anchor.getAttribute('title') || '',
                                 text: anchor.textContent || '',
                                 rect: { top: rect.top, bottom: rect.bottom, left: rect.left, right: rect.right, width: rect.width, height: rect.height },

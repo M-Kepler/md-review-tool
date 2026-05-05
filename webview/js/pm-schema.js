@@ -318,10 +318,17 @@ const marks = {
             getAttrs(dom) {
                 return { href: dom.getAttribute('href'), title: dom.getAttribute('title') };
             },
+        }, {
+            tag: 'a[data-href]',
+            getAttrs(dom) {
+                return { href: dom.getAttribute('data-href'), title: dom.getAttribute('title') };
+            },
         }],
         toDOM(node) {
             const { href, title } = node.attrs;
-            return ['a', { href, title }, 0];
+            // 不输出 href 属性，防止 VS Code webview 拦截链接点击导致直接跳转
+            // 使用 data-href 存储链接地址，由 ProseMirror click handler 读取
+            return ['a', { 'data-href': href, title, class: 'pm-link' }, 0];
         },
     },
 

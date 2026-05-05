@@ -127,5 +127,46 @@ suite('Link Edit Text Test Suite', () => {
         assert.ok(bundle.includes('handleDOMEvents'), 'pm.bundle.js 应包含 handleDOMEvents');
         assert.ok(bundle.includes('preventDefault'), 'pm.bundle.js 应包含 preventDefault 调用');
     });
+
+    // ===== 超链接点击不跳转 — data-href 防止 webview 拦截 =====
+
+    test('BT-LinkEditText.T1.6 Tier1 — pm-schema.js link toDOM 应使用 data-href 而非 href', () => {
+        if (!extPath) { assert.ok(true, '测试环境中扩展路径不可用'); return; }
+        const schema = fs.readFileSync(path.join(extPath, 'webview', 'js', 'pm-schema.js'), 'utf-8');
+        assert.ok(schema.includes("'data-href'"), 'pm-schema.js link toDOM 应输出 data-href 属性');
+        assert.ok(schema.includes("class: 'pm-link'"), 'pm-schema.js link toDOM 应输出 pm-link class');
+    });
+
+    test('BT-LinkEditText.T1.7 Tier1 — markdown.css 应包含 .pm-link 链接样式', () => {
+        if (!extPath) { assert.ok(true, '测试环境中扩展路径不可用'); return; }
+        const css = fs.readFileSync(path.join(extPath, 'webview', 'css', 'markdown.css'), 'utf-8');
+        assert.ok(css.includes('a.pm-link'), 'CSS 应包含 a.pm-link 选择器');
+        assert.ok(css.includes('text-decoration: underline'), 'pm-link 应有下划线样式');
+    });
+
+    test('BT-LinkEditText.8 Tier3 — click handler 应调用 stopPropagation 防止事件冒泡到 webview', () => {
+        if (!extPath) { assert.ok(true, '测试环境中扩展路径不可用'); return; }
+        const src = fs.readFileSync(path.join(extPath, 'webview', 'src', 'entries', 'pm.entry.js'), 'utf-8');
+        assert.ok(src.includes('stopPropagation'), 'click handler 应调用 stopPropagation 阻止事件冒泡');
+    });
+
+    test('BT-LinkEditText.9 Tier3 — click handler 应从 data-href 读取链接地址', () => {
+        if (!extPath) { assert.ok(true, '测试环境中扩展路径不可用'); return; }
+        const src = fs.readFileSync(path.join(extPath, 'webview', 'src', 'entries', 'pm.entry.js'), 'utf-8');
+        assert.ok(src.includes("getAttribute('data-href')"), 'click handler 应从 data-href 读取链接地址');
+    });
+
+    test('BT-LinkEditText.10 Tier3 — pm-schema.js link parseDOM 应支持 data-href 解析', () => {
+        if (!extPath) { assert.ok(true, '测试环境中扩展路径不可用'); return; }
+        const schema = fs.readFileSync(path.join(extPath, 'webview', 'js', 'pm-schema.js'), 'utf-8');
+        assert.ok(schema.includes("tag: 'a[data-href]'"), 'parseDOM 应包含 a[data-href] 选择器');
+    });
+
+    test('BT-LinkEditText.11 Tier3 — pm.bundle.js 产物应包含 data-href 和 stopPropagation', () => {
+        if (!extPath) { assert.ok(true, '测试环境中扩展路径不可用'); return; }
+        const bundle = fs.readFileSync(path.join(extPath, 'webview', 'dist', 'pm.bundle.js'), 'utf-8');
+        assert.ok(bundle.includes('data-href'), 'pm.bundle.js 应包含 data-href');
+        assert.ok(bundle.includes('stopPropagation'), 'pm.bundle.js 应包含 stopPropagation');
+    });
 });
 

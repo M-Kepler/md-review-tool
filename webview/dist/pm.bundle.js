@@ -21143,10 +21143,15 @@
         getAttrs(dom) {
           return { href: dom.getAttribute("href"), title: dom.getAttribute("title") };
         }
+      }, {
+        tag: "a[data-href]",
+        getAttrs(dom) {
+          return { href: dom.getAttribute("data-href"), title: dom.getAttribute("title") };
+        }
       }],
       toDOM(node) {
         const { href, title } = node.attrs;
-        return ["a", { href, title }, 0];
+        return ["a", { "data-href": href, title, class: "pm-link" }, 0];
       }
     },
     strikethrough: {
@@ -28743,11 +28748,12 @@
           const anchor = target && (target.tagName === "A" ? target : target.closest && target.closest("a"));
           if (anchor) {
             event.preventDefault();
+            event.stopPropagation();
             try {
               const rect = anchor.getBoundingClientRect();
               window.dispatchEvent(new CustomEvent("pm-link-click", {
                 detail: {
-                  href: anchor.getAttribute("href") || "",
+                  href: anchor.getAttribute("data-href") || anchor.getAttribute("href") || "",
                   title: anchor.getAttribute("title") || "",
                   text: anchor.textContent || "",
                   rect: { top: rect.top, bottom: rect.bottom, left: rect.left, right: rect.right, width: rect.width, height: rect.height }
