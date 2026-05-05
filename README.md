@@ -5,11 +5,11 @@
 [![Version](https://img.shields.io/visual-studio-marketplace/v/letitia.md-human-review?label=VS%20Code%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=letitia.md-human-review)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> A powerful Markdown review & annotation extension for VSCode — comment, mark deletions, insert content, dual-mode editor (Source + Rich), and generate AI fix instructions with one click.
+> A powerful Markdown review & annotation extension for VSCode — comment, mark deletions, insert content, Rich Mode editor (ProseMirror), Custom Editor integration, and generate AI fix instructions with one click.
 >
-> 🖊️ 像导师批改论文一样批阅 Markdown —— 评论、删除、插入、双模式编辑器（源码+富文本），一键生成 AI 修改指令。
+> 🖊️ 像导师批改论文一样批阅 Markdown —— 评论、删除、插入、富文本编辑器（ProseMirror），一键生成 AI 修改指令。
 
-**Key Features**: Markdown review, annotation, comment, dual-mode editing (Source + Rich), AI-powered fix, code highlighting, Mermaid diagrams, KaTeX math, PlantUML, Graphviz, content search, dark/light theme, table of contents, image lightbox, multi-window, auto-save.
+**Key Features**: Markdown review, annotation, comment, Rich Mode editing (ProseMirror), Custom Editor Provider, YAML frontmatter editing, link bubble menu, table grid selector, AI-powered fix, code highlighting, Mermaid diagrams, KaTeX math, PlantUML, Graphviz, content search, dark/light theme, table of contents, image lightbox, multi-window, auto-save.
 
 > 📦 **Available on VS Code Marketplace & Open VSX Registry** — Works with VS Code and all VS Code–based AI-powered editors, including **Cursor**, **Windsurf**, **CodeBuddy IDE**, **Trae**, and more.
 
@@ -30,9 +30,17 @@
 - **🗑️ Mark Deletion** — Select text to mark as pending deletion, displayed with strikethrough
 - **➕ Insert Content** — Select anchor text to insert new content (supports Markdown), with before/after insertion options
 - **✏️ Rich Mode Editor** — Click the pencil (✎) toolbar button to enter a ProseMirror-based structured editor with a formatting toolbar (Bold, Italic, Headings, Lists, etc.), syntax highlighting, diagram preview, smart paste, annotation decorations, and local image insertion (pick from file system or paste)
-- **📊 Table Editing** — Right-click tables in edit mode to insert/delete rows and columns
+- **📝 Editable YAML Front Matter** — Double-click frontmatter block to edit with textarea, Ctrl+Enter to confirm
+- **🔗 Link Bubble Menu** — Click any hyperlink to show a floating menu (preview URL, edit, open in browser, copy, unlink)
+- **🔗 Re-edit Hyperlinks** — Double-click existing links to edit URL, title, and display text
+- **📊 Table Grid Selector** — Table button opens a 6×6 grid popover for custom row/column selection when inserting tables
+- **📊 Table Editing** — Right-click tables in edit mode to insert/delete rows and columns, delete entire table, or use hover "+" overlay to add rows/columns
+- **🖼️ Pick Local Images** — Image popover adds "📁 Pick Local Image" button with native file picker for inserting images from your file system
 - **📈 Diagram Source Editing** — In edit mode, Mermaid / PlantUML / Graphviz diagrams are converted to editable source code areas for direct modification
+- **⚠️ Alert Block Type Selector** — 5 alert types (Note/Tip/Important/Warning/Caution) via popover
+- **💻 Code Block Language Selector** — 12 common languages + custom input via popover
 - **🔄 Smart Edit Preservation** — Editing blockquotes, GitHub alert blocks, code blocks, math formulas, and diagrams preserves their original Markdown structure
+- **🔄 Refresh Button (Three Strategies)** — Visual Refresh (re-render without disk read), Disk Reload (re-read file, creates new review version if changed), Editor Reload (reset webview state). Disk Reload and Editor Reload prompt confirmation when unsaved edits exist
 
 ### 🔍 Search
 - **Content Search** — Press `Ctrl+F` to open the search bar; all matching text is highlighted with navigation between matches
@@ -64,6 +72,7 @@
 - **Auto Language Detection** — Defaults to VS Code's display language
 
 ### 🖥️ Interface & Experience
+- **Custom Editor Provider** — Registered as `CustomTextEditorProvider` for `.md/.mdc/.markdown` files; supports native dirty-state indicator (●) and `Ctrl+S` save. Use "Open With..." to choose between MD Human Review and the default text editor
 - **Table of Contents** — Auto-generated document TOC with collapse/expand all, quick navigation, and scroll-synced active section highlighting
 - **Annotations Panel** — Side annotation list with sorting by time or text position, navigation, editing, and deletion
 - **Image Lightbox** — Click images to enlarge with scroll-wheel zoom, drag-to-pan, double-click to reset (`+`/`-` zoom, `0` fit window, `R` reset)
@@ -73,8 +82,8 @@
 - **Sidebar Layout** — Swappable positions for TOC and annotations panels (TOC left/right)
 - **Panel Resize** — Drag to adjust TOC and annotations panel widths
 - **Multi-Window Support** — Open multiple Markdown files simultaneously, each in its own independent review panel with separate annotations and state; smart titles auto-append parent directory for same-name files (e.g. `README.md — docs`)
-- **File Selector** — Dropdown to quickly switch between workspace Markdown files
 - **File Change Detection** — Shows "File Updated" badge when source file changes; click refresh to reload
+- **Context Menus** — Right-click context menus with `mdReview.openWithReview` command for quick access
 - **Back to Top** — Floating button to quickly scroll to the top of the document
 
 ### ⌨️ Keyboard Shortcuts
@@ -138,10 +147,10 @@ This extension's review styles, interaction logic, and AI instruction templates 
 
 ### Usage
 
-1. Open any `.md` or `.mdc` file in your editor (VS Code / Cursor / Windsurf / CodeBuddy IDE / Trae, etc.)
+1. Open any `.md`, `.mdc`, or `.markdown` file in your editor (VS Code / Cursor / Windsurf / CodeBuddy IDE / Trae, etc.)
 2. Open the review panel via:
-- **Command Palette**: `Ctrl+Shift+P` → Search "MD Human Review: 打开批阅面板"
-   - **Context Menu**: Right-click in the editor or file explorer
+   - **"Open With..."**: Right-click a Markdown file → "Open With..." → select "MD Human Review" (Custom Editor)
+   - **Context Menu**: Right-click in the editor or file explorer → "Open with MD Human Review"
    - **Editor Title Bar**: Click the icon button in the title bar
 3. Select text and use the floating toolbar or right-click context menu for review operations
 4. When done, click "🤖 One-click AI Fix" to generate instructions, or press `Ctrl+E` to export review records
@@ -150,9 +159,9 @@ This extension's review styles, interaction logic, and AI instruction templates 
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
-| `mdReview.fontSize` | number | 18 | Document body font size (12-24 px) |
-| `mdReview.lineHeight` | number | 1.8 | Document body line height (1.2-2.4) |
-| `mdReview.contentMaxWidth` | number | 1200 | Max width of document content area (600-1800 px) |
+| `mdReview.fontSize` | number | 16 | Document body font size (12-24 px) |
+| `mdReview.lineHeight` | number | 1.6 | Document body line height (1.2-2.4) |
+| `mdReview.contentMaxWidth` | number | 1100 | Max width of document content area (600-1800 px) |
 | `mdReview.fontFamily` | string | `""` | Document body font (empty for system default, e.g. 'Microsoft YaHei') |
 | `mdReview.codeFontFamily` | string | `""` | Code block font (empty for default monospace, e.g. 'Fira Code') |
 | `mdReview.theme` | string | `"light"` | UI theme (light / dark / auto) |
@@ -177,8 +186,10 @@ This extension's review styles, interaction logic, and AI instruction templates 
 md-review-tool/
 ├── src/                        # Extension backend (TypeScript)
 │   ├── extension.ts            # Extension entry, command registration
-│   ├── reviewPanel.ts          # WebView panel management, message handling
+│   ├── customEditorProvider.ts # Custom Editor Provider (native dirty-state, Ctrl+S)
+│   ├── webviewHelper.ts        # Shared webview rendering (panel + editor modes)
 │   ├── fileService.ts          # File read/write, review record management
+│   ├── aiChatAdapters.ts       # AI Chat multi-IDE adapters (Cursor/Windsurf/CodeBuddy)
 │   └── stateService.ts         # State management
 ├── webview/                    # Frontend UI
 │   ├── index.html              # Main page (toolbar, modals, settings panel)
@@ -190,13 +201,20 @@ md-review-tool/
 │   │   ├── highlight-themes.css # Code highlighting theme collection
 │   │   ├── katex.min.css       # KaTeX math formula styles
 │   │   └── fonts/              # KaTeX font files
-│   └── js/
-│       ├── app.js              # Main app logic (init, events, mode switching)
-│       ├── renderer.js         # Markdown rendering engine (parsing, Mermaid, KaTeX)
-│       ├── annotations.js      # Annotation system (highlights, cards, interactions)
-│       ├── export.js           # Export module (review doc generation, auto-save)
-│       ├── store.js            # Data store (annotation data, version management)
-│       └── settings.js         # Settings management (read, apply, sync)
+│   ├── js/
+│   │   ├── app.js              # Main app logic (init, events, mode switching)
+│   │   ├── renderer.js         # Markdown rendering engine (parsing, Mermaid, KaTeX)
+│   │   ├── annotations.js      # Annotation system (highlights, cards, interactions)
+│   │   ├── edit-mode.js        # Edit mode state machine (INACTIVE/RICH)
+│   │   ├── pm-schema.js        # ProseMirror schema (20 nodes + 11 marks)
+│   │   ├── pm-markdown-bridge.js # Markdown↔PM bidirectional bridge
+│   │   ├── export.js           # Export module (review doc generation, auto-save)
+│   │   ├── store.js            # Data store (annotation data, version management)
+│   │   ├── settings.js         # Settings management (read, apply, sync)
+│   │   └── i18n.js             # Internationalization (zh-CN / en)
+│   └── src/entries/            # esbuild entry points
+│       ├── main.entry.js       # → dist/app.bundle.js
+│       └── pm.entry.js         # → dist/pm.bundle.js (ProseMirror engine)
 ├── syntaxes/                   # .mdc syntax highlighting definitions
 ├── package.json                # Extension manifest
 └── tsconfig.json               # TypeScript configuration
@@ -256,7 +274,7 @@ MIT
 <a id="chinese"></a>
 # MD Human Review
 
-> 🖊️ 像导师批改论文一样批阅 Markdown —— 评论、删除、插入、双模式编辑器（源码+富文本），一键生成 AI 修改指令。
+> 🖊️ 像导师批改论文一样批阅 Markdown —— 评论、删除、插入、富文本编辑器（ProseMirror），一键生成 AI 修改指令。
 
 > 📦 **已发布至 VS Code 插件市场 与 Open VSX（Cursor 市场）** —— 支持 VS Code 及所有基于 VS Code 开源版本构建的 AI 编辑器，包括 **Cursor**、**Windsurf**、**CodeBuddy IDE**、**Trae** 等。
 
@@ -277,8 +295,15 @@ MIT
 - **🗑️ 标记删除** — 选中文字标记为待删除，以删除线样式展示
 - **➕ 插入内容** — 选中锚点文字后插入新内容（支持 Markdown 格式），可选择在锚点之前或之后插入
 - **✏️ 富文本编辑器** — 点击工具栏的铅笔（✎）按钮进入基于 ProseMirror 的结构化编辑器，支持语法高亮、图表预览、智能粘贴、批注装饰、本地图片选取插入
-- **📊 表格编辑** — 编辑模式下右键表格可插入/删除行列
+- **📝 可编辑 YAML Front Matter** — 双击 frontmatter 区块即可以 textarea 形式编辑，Ctrl+Enter 确认
+- **🔗 链接气泡菜单** — 点击任意超链接显示浮动菜单（预览 URL、编辑、在浏览器中打开、复制、取消链接）
+- **🔗 重新编辑超链接** — 双击已有链接可编辑 URL、标题和显示文本
+- **📊 表格网格选择器** — 表格按钮打开 6×6 网格弹窗，可自定义行列数插入表格
+- **📊 表格编辑** — 编辑模式下右键表格可插入/删除行列、删除整个表格，或使用悬停“+”覆盖层添加行/列
+- **🖼️ 选取本地图片** — 图片弹窗新增“📁 选取本地图片”按钮，支持原生文件选择器插入图片
 - **📈 图表源码编辑** — 编辑模式下 Mermaid / PlantUML / Graphviz 图表自动转换为可编辑的源码区域，支持直接修改图表代码
+- **⚠️ 告警块类型选择器** — 5 种告警类型（Note/Tip/Important/Warning/Caution）通过弹窗选择
+- **💻 代码块语言选择器** — 12 种常用语言 + 自定义输入通过弹窗选择
 - **🔄 智能编辑保护** — 编辑引用块、GitHub 告警块、代码块、数学公式和图表时，保留原始 Markdown 结构不被破坏
 - **🔄 刷新按钮（三策略）** — 工具栏刷新按钮提供三种刷新策略：视觉刷新（纯重渲染，不读磁盘）、磁盘重载（重读文件并按需创建新审阅版本）、编辑器重载（重置 webview 状态）。磁盘重载和编辑器重载在文档有未保存修改时会弹出确认对话框
 
@@ -312,6 +337,7 @@ MIT
 - **自动语言检测** — 默认跟随 VS Code 显示语言
 
 ### 🖥️ 界面与体验
+- **Custom Editor Provider** — 注册为 `CustomTextEditorProvider`，支持 `.md/.mdc/.markdown` 文件的原生脏状态指示器（●）和 `Ctrl+S` 保存。使用“打开方式...”可在 MD Human Review 和默认文本编辑器之间切换
 - **目录导航** — 自动生成文档目录，支持折叠/展开全部、快速跳转、滚动高亮当前章节
 - **批注面板** — 侧边批注列表，支持按时间或文本位置排序、定位、编辑、删除
 - **图片灯箱** — 点击文档中的图片放大预览，支持滚轮缩放、拖拽平移、双击还原（`+`/`-` 缩放，`0` 适应窗口，`R` 重置）
@@ -321,8 +347,8 @@ MIT
 - **侧边栏布局** — 目录与批注面板位置可互换（目录在左/右）
 - **面板拖拽** — 目录和批注面板宽度可拖拽调整
 - **多窗口支持** — 可同时打开多个 Markdown 文件，每个文件拥有独立的批阅面板、批注和状态；同名文件自动在标题中追加父目录区分（如 `README.md — docs`）
-- **文件选择器** — 工作区内 Markdown 文件下拉框快速切换
 - **文件变更检测** — 源文件修改后显示「文件已更新」徽章，点击刷新按钮重载
+- **右键菜单** — 通过 `mdReview.openWithReview` 命令快速打开批阅面板
 - **回到顶部** — 悬浮按钮快速回到文档顶部
 
 ### ⌨️ 快捷键
@@ -386,14 +412,13 @@ MIT
 
 ### 使用
 
-1. 在你的编辑器（VS Code / Cursor / Windsurf / CodeBuddy IDE / Trae 等）中打开任意 `.md` 或 `.mdc` 文件
+1. 在你的编辑器（VS Code、Cursor、Windsurf、CodeBuddy IDE、Trae 或任意基于 VS Code 的 AI 编辑器）中打开任意 `.md`、`.mdc` 或 `.markdown` 文件
 2. 通过以下方式打开批阅面板：
-- **命令面板**：`Ctrl+Shift+P` → 搜索「MD Human Review: 打开批阅面板」
-   - **右键菜单**：在编辑器或资源管理器中右键选择
+   - **“打开方式...”**：右键 Markdown 文件 → “打开方式...” → 选择“MD Human Review”（Custom Editor）
+   - **右键菜单**：在编辑器或资源管理器中右键选择“使用 MD Human Review 打开”
    - **编辑器标题栏**：点击标题栏图标按钮
 3. 选中文字后使用浮层工具条或右键菜单进行批阅操作
 4. 批阅完成后点击「🤖 一键AI修复」生成指令，或按 `Ctrl+E` 导出批阅记录
-
 ## ⚙️ 配置项
 
 | 配置项 | 类型 | 默认值 | 说明 |
@@ -425,8 +450,10 @@ MIT
 md-review-tool/
 ├── src/                        # 扩展后端（TypeScript）
 │   ├── extension.ts            # 扩展入口，注册命令
-│   ├── reviewPanel.ts          # WebView 面板管理、消息处理
+│   ├── customEditorProvider.ts # Custom Editor Provider（原生脏状态、Ctrl+S）
+│   ├── webviewHelper.ts        # 共享 webview 渲染（面板 + 编辑器模式）
 │   ├── fileService.ts          # 文件读写、批阅记录管理
+│   ├── aiChatAdapters.ts       # AI Chat 多 IDE 适配器（Cursor/Windsurf/CodeBuddy）
 │   └── stateService.ts         # 状态管理
 ├── webview/                    # 前端界面
 │   ├── index.html              # 主页面（工具栏、弹窗、设置面板）
@@ -438,13 +465,20 @@ md-review-tool/
 │   │   ├── highlight-themes.css # 代码高亮主题集合
 │   │   ├── katex.min.css       # KaTeX 数学公式样式
 │   │   └── fonts/              # KaTeX 字体文件
-│   └── js/
-│       ├── app.js              # 主应用逻辑（初始化、事件、模式切换）
-│       ├── renderer.js         # Markdown 渲染引擎（解析、Mermaid、KaTeX）
-│       ├── annotations.js      # 批注系统（高亮、卡片、交互）
-│       ├── export.js           # 导出模块（批阅记录生成、自动保存）
-│       ├── store.js            # 数据存储（批注数据、版本管理）
-│       └── settings.js         # 设置管理（读取、应用、同步）
+│   ├── js/
+│   │   ├── app.js              # 主应用逻辑（初始化、事件、模式切换）
+│   │   ├── renderer.js         # Markdown 渲染引擎（解析、Mermaid、KaTeX）
+│   │   ├── annotations.js      # 批注系统（高亮、卡片、交互）
+│   │   ├── edit-mode.js        # 编辑模式状态机（INACTIVE/RICH）
+│   │   ├── pm-schema.js        # ProseMirror schema（20 nodes + 11 marks）
+│   │   ├── pm-markdown-bridge.js # Markdown↔PM 双向桥
+│   │   ├── export.js           # 导出模块（批阅记录生成、自动保存）
+│   │   ├── store.js            # 数据存储（批注数据、版本管理）
+│   │   ├── settings.js         # 设置管理（读取、应用、同步）
+│   │   └── i18n.js             # 国际化（zh-CN / en）
+│   └── src/entries/            # esbuild 入口点
+│       ├── main.entry.js       # → dist/app.bundle.js
+│       └── pm.entry.js         # → dist/pm.bundle.js（ProseMirror 引擎）
 ├── syntaxes/                   # .mdc 语法高亮定义
 ├── package.json                # 扩展清单
 └── tsconfig.json               # TypeScript 配置
