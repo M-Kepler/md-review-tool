@@ -1836,6 +1836,85 @@ body.rich-mode-active #richModeContainer {
     border: 1px dashed var(--vscode-editorGroup-border, #444);
     margin-bottom: 1em;
 }
+/* Frontmatter NodeView 样式 */
+#richModeContainer .frontmatter-nodeview {
+    background: var(--vscode-textCodeBlock-background, #1e1e1e);
+    border: 1px dashed var(--vscode-editorGroup-border, #444);
+    border-radius: 6px;
+    margin-bottom: 1em;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+#richModeContainer .frontmatter-nodeview:hover {
+    border-color: var(--vscode-focusBorder, #007fd4);
+}
+#richModeContainer .frontmatter-edit-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--vscode-editorGroup-border, #333);
+    font-size: 12px;
+    color: var(--vscode-descriptionForeground, #999);
+}
+#richModeContainer .frontmatter-edit-icon {
+    font-size: 14px;
+}
+#richModeContainer .frontmatter-edit-title {
+    font-weight: 600;
+    color: var(--vscode-foreground, #ccc);
+}
+#richModeContainer .frontmatter-edit-hint {
+    margin-left: auto;
+    font-style: italic;
+    opacity: 0.7;
+}
+#richModeContainer .frontmatter-content {
+    margin: 0;
+    padding: 10px 14px;
+    font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    color: var(--vscode-foreground, #d4d4d4);
+    background: transparent;
+    border: none;
+}
+#richModeContainer .frontmatter-edit-textarea {
+    display: block;
+    width: 100%;
+    min-height: 80px;
+    padding: 10px 14px;
+    margin: 0;
+    border: none;
+    outline: none;
+    resize: vertical;
+    font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--vscode-editor-foreground, #d4d4d4);
+    background: var(--vscode-input-background, #1e1e1e);
+    border-radius: 0 0 6px 6px;
+    box-sizing: border-box;
+}
+#richModeContainer .frontmatter-edit-textarea:focus {
+    background: var(--vscode-input-background, #252526);
+}
+/* 亮色主题下的 frontmatter-nodeview */
+body:not(.theme-dark) #richModeContainer .frontmatter-nodeview {
+    background: #f8f9fa;
+    border-color: #d0d7de;
+}
+body:not(.theme-dark) #richModeContainer .frontmatter-edit-header {
+    border-bottom-color: #d0d7de;
+}
+body:not(.theme-dark) #richModeContainer .frontmatter-content {
+    color: #24292f;
+}
+body:not(.theme-dark) #richModeContainer .frontmatter-edit-textarea {
+    color: #24292f;
+    background: #ffffff;
+}
 /* Math 样式 */
 #richModeContainer .math-inline {
     font-family: 'JetBrains Mono', Consolas, monospace;
