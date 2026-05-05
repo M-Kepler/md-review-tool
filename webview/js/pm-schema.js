@@ -111,22 +111,26 @@ const nodes = {
     },
 
     bullet_list: {
+        attrs: { tight: { default: true } },
         content: 'list_item+',
         group: 'block',
-        parseDOM: [{ tag: 'ul' }],
-        toDOM() { return ['ul', 0]; },
+        parseDOM: [{ tag: 'ul', getAttrs(dom) { return { tight: dom.hasAttribute('data-tight') }; } }],
+        toDOM(node) { return node.attrs.tight ? ['ul', { 'data-tight': 'true' }, 0] : ['ul', 0]; },
     },
 
     ordered_list: {
-        attrs: { start: { default: 1, validate: 'number' } },
+        attrs: { start: { default: 1, validate: 'number' }, tight: { default: true } },
         content: 'list_item+',
         group: 'block',
         parseDOM: [{
             tag: 'ol',
-            getAttrs(dom) { return { start: dom.hasAttribute('start') ? +dom.getAttribute('start') : 1 }; },
+            getAttrs(dom) { return { start: dom.hasAttribute('start') ? +dom.getAttribute('start') : 1, tight: dom.hasAttribute('data-tight') }; },
         }],
         toDOM(node) {
-            return node.attrs.start === 1 ? ['ol', 0] : ['ol', { start: node.attrs.start }, 0];
+            const attrs = {};
+            if (node.attrs.start !== 1) attrs.start = node.attrs.start;
+            if (node.attrs.tight) attrs['data-tight'] = 'true';
+            return ['ol', attrs, 0];
         },
     },
 

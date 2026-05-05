@@ -20936,25 +20936,31 @@
       }
     },
     bullet_list: {
+      attrs: { tight: { default: true } },
       content: "list_item+",
       group: "block",
-      parseDOM: [{ tag: "ul" }],
-      toDOM() {
-        return ["ul", 0];
+      parseDOM: [{ tag: "ul", getAttrs(dom) {
+        return { tight: dom.hasAttribute("data-tight") };
+      } }],
+      toDOM(node) {
+        return node.attrs.tight ? ["ul", { "data-tight": "true" }, 0] : ["ul", 0];
       }
     },
     ordered_list: {
-      attrs: { start: { default: 1, validate: "number" } },
+      attrs: { start: { default: 1, validate: "number" }, tight: { default: true } },
       content: "list_item+",
       group: "block",
       parseDOM: [{
         tag: "ol",
         getAttrs(dom) {
-          return { start: dom.hasAttribute("start") ? +dom.getAttribute("start") : 1 };
+          return { start: dom.hasAttribute("start") ? +dom.getAttribute("start") : 1, tight: dom.hasAttribute("data-tight") };
         }
       }],
       toDOM(node) {
-        return node.attrs.start === 1 ? ["ol", 0] : ["ol", { start: node.attrs.start }, 0];
+        const attrs2 = {};
+        if (node.attrs.start !== 1) attrs2.start = node.attrs.start;
+        if (node.attrs.tight) attrs2["data-tight"] = "true";
+        return ["ol", attrs2, 0];
       }
     },
     list_item: {
@@ -27680,12 +27686,17 @@
   md.use(diagramPlugin);
   md.use(htmlTagConverterPlugin);
   md.use(taskListPlugin);
+  function listIsTight2(tokens, i) {
+    while (++i < tokens.length)
+      if (tokens[i].type !== "list_item_open") return tokens[i].hidden;
+    return false;
+  }
   var parser = new MarkdownParser(schema, md, {
     blockquote: { block: "blockquote" },
     paragraph: { block: "paragraph" },
     list_item: { block: "list_item", getAttrs: (tok) => ({ checked: tok.meta && tok.meta.checked !== void 0 ? tok.meta.checked : null }) },
-    bullet_list: { block: "bullet_list" },
-    ordered_list: { block: "ordered_list", getAttrs: (tok) => ({ start: +tok.attrGet("start") || 1 }) },
+    bullet_list: { block: "bullet_list", getAttrs: (_, tokens, i) => ({ tight: listIsTight2(tokens, i) }) },
+    ordered_list: { block: "ordered_list", getAttrs: (tok, tokens, i) => ({ start: +tok.attrGet("start") || 1, tight: listIsTight2(tokens, i) }) },
     heading: { block: "heading", getAttrs: (tok) => ({ level: +tok.tag.slice(1) }) },
     code_block: { block: "code_block", noCloseToken: true },
     fence: { block: "code_block", getAttrs: (tok) => ({ language: tok.info || "" }), noCloseToken: true },

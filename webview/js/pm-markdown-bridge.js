@@ -368,13 +368,20 @@ md.use(diagramPlugin);
 md.use(htmlTagConverterPlugin);
 md.use(taskListPlugin);
 
+// ===== 辅助函数：检测列表是否为 tight =====
+function listIsTight(tokens, i) {
+    while (++i < tokens.length)
+        if (tokens[i].type !== 'list_item_open') return tokens[i].hidden;
+    return false;
+}
+
 // ===== MarkdownParser 配置 =====
 const parser = new MarkdownParser(schema, md, {
     blockquote: { block: 'blockquote' },
     paragraph: { block: 'paragraph' },
     list_item: { block: 'list_item', getAttrs: tok => ({ checked: tok.meta && tok.meta.checked !== undefined ? tok.meta.checked : null }) },
-    bullet_list: { block: 'bullet_list' },
-    ordered_list: { block: 'ordered_list', getAttrs: tok => ({ start: +tok.attrGet('start') || 1 }) },
+    bullet_list: { block: 'bullet_list', getAttrs: (_, tokens, i) => ({ tight: listIsTight(tokens, i) }) },
+    ordered_list: { block: 'ordered_list', getAttrs: (tok, tokens, i) => ({ start: +tok.attrGet('start') || 1, tight: listIsTight(tokens, i) }) },
     heading: { block: 'heading', getAttrs: tok => ({ level: +tok.tag.slice(1) }) },
     code_block: { block: 'code_block', noCloseToken: true },
     fence: { block: 'code_block', getAttrs: tok => ({ language: tok.info || '' }), noCloseToken: true },
