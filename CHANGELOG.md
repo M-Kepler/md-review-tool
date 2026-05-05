@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.6.0] - 2026-05-06
+## [1.5.0] - 2026-05-06
 
 ### ✨ New Features
 - **Editable YAML Front Matter in Rich Mode** — Double-click to edit frontmatter with textarea, Ctrl+Enter to confirm
@@ -16,6 +16,13 @@ All notable changes to this project will be documented in this file.
 - **Code block language selector** — 12 common languages + custom input via popover
 - **Restore context menus** — Right-click context menus restored with `mdReview.openWithReview` command
 - **Restored toolbar refresh button** — Three strategies: Visual Refresh, Disk Reload, Editor Reload
+- Extend Rich Mode editor toolbar — 13 new buttons (Inline Code, Text Color, Highlight, Task List, Hyperlink, Image, Alert Block, Code Block, Table, Mermaid, PlantUML, Graphviz, Emoji)
+- Add Rich Mode editor toolbar (Bold, Italic, Strikethrough, H1-H3, Lists, Blockquote, HR, Undo, Redo)
+- Hide TOC and annotations panels in Rich Mode for distraction-free editing
+
+### 💥 Breaking Changes
+- Remove Source Mode editor (CodeMirror 6) — use VS Code native editor for raw Markdown
+- Rich Mode is now the only editor (icon changed to pencil ✎)
 
 ### 🔧 Refactor
 - Remove obsolete UI test cases: `diagnostic.spec.ts` (debug-only skipped tests), contenteditable-based tests in `edit-mode.spec.ts` and `checkbox.spec.ts` (replaced by ProseMirror)
@@ -38,31 +45,6 @@ All notable changes to this project will be documented in this file.
 - Add "Delete entire table" context-menu entry
 - Add hover "+" overlay for adding rows/columns to tables
 - Raise table context menu viewport clamp to 360px
-
-### 🔧 Improvements
-- Move Undo/Redo buttons to first position in Rich Mode toolbar
-- Use VS Code default editor background in Rich Mode
-
-### 🗑️ Removed
-- Removed `MD Human Review: Open Review Panel` command — use context menu or "Open With..." instead
-- Removed internal file list — use VS Code native file Explorer
-
-### ✅ Tests
-- 1001 passing, 0 failing
-- Added regression assertions for: frontmatter edit, task list checkbox, link bubble, task list parse, link edit text, pick local image, image URI cache, file change badge, custom editor provider, rich mode bugfixes
-
-## [1.5.0] - 2026-04-30
-
-### ✨ New Features
-- Extend Rich Mode editor toolbar — 13 new buttons (Inline Code, Text Color, Highlight, Task List, Hyperlink, Image, Alert Block, Code Block, Table, Mermaid, PlantUML, Graphviz, Emoji)
-- Add Rich Mode editor toolbar (Bold, Italic, Strikethrough, H1-H3, Lists, Blockquote, HR, Undo, Redo)
-- Hide TOC and annotations panels in Rich Mode for distraction-free editing
-
-### 💥 Breaking Changes
-- Remove Source Mode editor (CodeMirror 6) — use VS Code native editor for raw Markdown
-- Rich Mode is now the only editor (icon changed to pencil ✎)
-
-### 🐛 Bug Fixes
 - Fix toolbar popover breaking page rendering (moved popovers outside `<button>`)
 - Fix image upload in comment modal (use `showOpenDialog` via Extension Host)
 - Fix image rendering in Rich Mode (resolve relative paths via URI cache)
@@ -72,8 +54,18 @@ All notable changes to this project will be documented in this file.
 - Fix disk record not updated after deleting all annotations in v1
 - Fix Rich Mode crash on block-level HTML (`noCloseToken: true`)
 
+### 🔧 Improvements
+- Move Undo/Redo buttons to first position in Rich Mode toolbar
+- Use VS Code default editor background in Rich Mode
+
 ### 🗑️ Removed
+- Removed `MD Human Review: Open Review Panel` command — use context menu or "Open With..." instead
+- Removed internal file list — use VS Code native file Explorer
 - CodeMirror 6 entry/bundle, 7 `@codemirror/*` dependencies, Source Mode CSS/i18n/tests
+
+### ✅ Tests
+- 1001 passing, 0 failing
+- Added regression assertions for: frontmatter edit, task list checkbox, link bubble, task list parse, link edit text, pick local image, image URI cache, file change badge, custom editor provider, rich mode bugfixes
 
 ## [1.4.0] - 2026-04-30
 
