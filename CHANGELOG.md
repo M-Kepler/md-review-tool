@@ -17,6 +17,9 @@ All notable changes to this project will be documented in this file.
 - **Restore context menus** — Right-click context menus restored with `mdReview.openWithReview` command
 - **Restored toolbar refresh button** — Three strategies: Visual Refresh, Disk Reload, Editor Reload
 
+### 🔧 Refactor
+- Remove obsolete UI test cases: `diagnostic.spec.ts` (debug-only skipped tests), contenteditable-based tests in `edit-mode.spec.ts` and `checkbox.spec.ts` (replaced by ProseMirror)
+
 ### 🐛 Bug Fixes
 - Fix task list items separated by blank lines after Enter in Rich Mode (added `tight` attribute)
 - Fix excessive spacing between task list items (changed contentDOM from `<span>` to `<div>`)
