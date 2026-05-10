@@ -159,10 +159,11 @@ suite('Remove Source Mode — Regression Test Suite', () => {
                 'build.config.mjs 不应有 cm6.bundle 入口键');
         });
 
-        test('BT-RemoveSourceMode.4 package.json 版本应为 1.5.0', () => {
+        test('BT-RemoveSourceMode.4 package.json 版本应 >= 1.5.0（Source Mode 移除版本）', () => {
             const pkg = JSON.parse(fs.readFileSync(path.join(extPath, 'package.json'), 'utf-8'));
-            assert.strictEqual(pkg.version, '1.5.0',
-                `package.json 版本应为 1.5.0，实际为 ${pkg.version}`);
+            const [major, minor] = pkg.version.split('.').map(Number);
+            assert.ok(major > 1 || (major === 1 && minor >= 5),
+                `package.json 版本应 >= 1.5.0，实际为 ${pkg.version}`);
         });
 
         test('BT-RemoveSourceMode.5 package-lock.json 不应包含 @codemirror 或 @lezer/markdown', () => {
