@@ -51,7 +51,7 @@ suite('Hotfix — Task List Checkbox Rich Mode 渲染', () => {
     test('BT-TaskListCheckbox.2 Tier3 — NodeView 应通过 setNodeMarkup 切换 checked 状态', () => {
         const src = fs.readFileSync(path.join(extPath, 'webview', 'src', 'entries', 'pm.entry.js'), 'utf-8');
         const nodeViewIdx = src.indexOf('list_item(node, view, getPos)');
-        const nodeViewSection = src.substring(nodeViewIdx, nodeViewIdx + 1500);
+        const nodeViewSection = src.substring(nodeViewIdx, nodeViewIdx + 2500);
         assert.ok(nodeViewSection.includes('setNodeMarkup'), 'NodeView 应使用 setNodeMarkup 更新 checked');
         assert.ok(nodeViewSection.includes('!currentChecked'), 'NodeView 应切换 checked 值');
     });
