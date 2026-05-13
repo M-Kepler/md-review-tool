@@ -2,14 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.5.2] - 2026-05-13
+## [1.5.3] - 2026-05-13
+
+### 🐛 Bug Fixes
+- **Mark editor dirty on ProseMirror changes** — Expose `markEditorDirty()` to ProseMirror onChange handler so edits are properly flagged as dirty, enabling auto-save and status bar updates
+- **Save immediately on exit edit mode** — When exiting Rich Mode, unsaved changes are now saved immediately instead of relying on the auto-save timer (which could be cancelled during exit)
 
 ### 🧪 Tests
 - **Add Custom Editor integration tests** — 5 new tests (`BT-custom-editor.INT.1~5`) that actually open `.md`/`.mdc` files via `vscode.openWith` and verify Custom Editor creation using `TabInputCustom` type checks
 
+## [1.5.2] - 2026-05-11
+
 ### 🐛 Bug Fixes
-- **Save immediately on exit edit mode** — When exiting Rich Mode, unsaved changes are now saved immediately instead of relying on the auto-save timer (which could be cancelled during exit)
-- **Mark editor dirty on ProseMirror changes** — Expose `markEditorDirty()` to ProseMirror onChange handler so edits are properly flagged as dirty, enabling auto-save and status bar updates
 - **Fix zen mode sidebar toggle** — Add `zenModeChanged` message handler to close/restore VS Code sidebar, auxiliary bar, and bottom panel when toggling zen mode
 - **Distinct annotation list icon** — Replace annotation list toggle icon from generic hamburger to a "list + ×" combo icon, visually distinguishing it from the TOC button
 
